@@ -29,7 +29,7 @@ pipeline {
                git branch: 'main', credentialsId: '33522e2b-10de-4afd-8d5a-494f80daefdb', url: 'https://github.com/praggya-android/DevOps_Project.git'
             }
         }
-    stages 
+    stages {
         stage('Requirements') {
             steps {
                 echo 'Installing requirements...'
@@ -65,4 +65,4 @@ pipeline {
         }
     }
 }
-
+}
