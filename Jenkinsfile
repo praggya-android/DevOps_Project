@@ -1,50 +1,44 @@
 pipeline {
     agent any
 
-    // this section configures Jenkins options
+    // Configuration options
     options {
-
-        // only keep 10 logs for no more than 10 days
         buildDiscarder(logRotator(daysToKeepStr: '10', numToKeepStr: '10'))
-
-        // cause the build to time out if it runs for more than 12 hours
         timeout(time: 12, unit: 'HOURS')
-
-        // add timestamps to the log
         timestamps()
     }
 
-    // this section configures triggers
+    // Triggers
     triggers {
-          // create a cron trigger that will run the job every day at midnight
-          // note that the time is based on the time zone used by the server
-          // where Jenkins is running, not the user's time zone
-          cron '@midnight'
+        cron('@midnight')
     }
 
-    // the pipeline section we all know and love: stages! :D
- stages {
+    // Stages
+    stages {
         stage('Clone Repository') {
             steps {
-               git branch: 'main', credentialsId: '33522e2b-10de-4afd-8d5a-494f80daefdb', url: 'https://github.com/praggya-android/DevOps_Project.git'
+                git branch: 'main', credentialsId: '33522e2b-10de-4afd-8d5a-494f80daefdb', url: 'https://github.com/praggya-android/DevOps_Project.git'
             }
         }
-    stages {
+
         stage('Requirements') {
             steps {
                 echo 'Installing requirements...'
             }
         }
+        
         stage('Build') {
             steps {
-                echo 'Building..'
+                echo 'Building...'
             }
         }
+
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Testing...'
             }
         }
+
         stage('Report') {
             steps {
                 echo 'Reporting....'
@@ -52,17 +46,10 @@ pipeline {
         }
     }
 
-    // the post section is a special collection of stages
-    // that are run after all other stages have completed
+    // Post-build actions
     post {
-
-        // the always stage will always be run
         always {
-
-            // the always stage can contain build steps like other stages
-            // a "steps{...}" section is not needed.
-            echo "This step will run after all other steps have finished.  It will always run, even in the status of the build is not SUCCESS"
+            echo "This step will run after all other steps have finished. It will always run, even if the build status is not SUCCESS."
         }
     }
-}
 }
