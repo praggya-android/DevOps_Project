@@ -8,7 +8,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-LABEL maintainer="WebMagic Informatica <info@webmagicinformatica.com>" \
+LABEL maintainer="Hello World <praggyasingh2023@gmail.com>" \
       version="1.0"
 
 CMD flask run --host=0.0.0.0 --port=5000
