@@ -1,20 +1,28 @@
-name: Python application
+name: Python CI
 
 on:
-  push:
-   branches: [ master ]
   pull_request:
-    branches: [ master ]
-      
+    branches:
+      - main
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Build & Push Image
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # You can specify the Python version you are using
+
+    - name: Install dependencies
       run: |
-        echo "${{ secrets.DOCKERPW }}" | docker login -u "dab8106" --password-stdin
-        docker image build -t dab8106/pyflask:latest .
-        docker push dab8106/pyflask:latest
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt # Replace 'requirements.txt' with the name of your requirements file if you have one
+    - name: Test with pytest
+      run: |
+        pytest # Assuming you have tests written with pytest, replace this with your testing command
+    # Add more steps as needed for your specific workflow
