@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u praggyasingh --password-newpassword
+    - name: Build the Docker image
+      run: |
+        docker build ./app --file ./app/Dockerfile --tag rudrasaxena69/myflaskapp:latest
+        docker push rudrasaxena69/myflaskapp:latest
