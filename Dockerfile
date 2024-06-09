@@ -1,14 +1,24 @@
-FROM python:2.7-alpine
+Use the official Python image from Docker Hub
+FROM python:3.9
 
-RUN mkdir /app
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# Copy the dependencies file to the working directory
+COPY requirements.txt /app/
 
-COPY . .
+# Install any dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-LABEL maintainer="Hello World <praggyasingh2023@gmail.com>" \
-      version="1.0"
+# Copy the current directory contents into the container at /app
+COPY . /app/
 
-CMD flask run --host=0.0.0.0 --port=5000
+# Expose port 5000 to the outside world
+EXPOSE 5000
+
+# Run the Flask application
+CMD ["python", "main.py"]
