@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myflaskapp
-        image: rudrasaxena70/myflaskapp:v1
+        image: praggya17/myflaskapp:v1
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
